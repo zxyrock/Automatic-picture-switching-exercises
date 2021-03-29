@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片自动切换练习</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        img {
+            width: 400px;
+            height: 400px;
+            margin: 50px auto;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        button {
+            width: 60px;
+            font-size: 14px;
+            line-height: 20px;
+            color: darkred;
+            background-color: lightblue;
+            margin: 0 5px;
+            border-radius: 8px;
+            outline: none;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            /*
+              使图片可以自动切换
+            */
+            //获取 img1标签
+            var img1 = document.getElementById("img1");
+
+            //创建一个数组来保存图片路径
+            var imgArr = ["img1.jpg", "img2.jpg", "img3.jpg", "img4.jpg", "img5.jpg", "img6.jpg"];
+
+            //创建一个变量，用来保存当前变量的索引
+            var index = 0;
+
+            //定义一个变量，用来保存定时器的标识
+            var timer;
+
+            //为 btn01绑定一个单击响应函数
+            var btn01 = document.getElementById("btn01");
+            btn01.onclick = function () {
+
+                /*
+                  目前我们买点一次按钮就会开启一个定时器
+                    点击多次就会开启多个定时器，这就导致图片切换速度过快，
+                    并且只能关闭最后一次开启的定时器
+                */
+
+                //在开启定时器之前，我们需要将当前元素上的其它定时器关闭
+                clearInterval(timer);
+
+                /*
+                  开启一个定时器，来自动切换图片
+                 */
+                 timer = setInterval(function () {
+                    //使索引自增
+                    index++;
+
+                    //判断索引是否超过最大索引
+                    // if(index >= imgArr.length){
+                    //      //则将 index设置为 0
+                    //       index = 0;
+                    // }
+                    index = index % imgArr.length;
+
+                    //修改 img1的 src属性
+                    img1.src = imgArr[index];
+                }, 1000);
+            };
+
+            //为 btn01绑定一个单击响应函数
+            var btn02 = document.getElementById("btn02");
+            btn02.onclick = function () {
+                //点击按钮以后，停止图片的自动切换，关闭定时器
+                /*
+                   clearInterval();可以接受任意参数
+                     如果参数是一个有效的定时器的标识，则停止对应的定时器
+                     如果参数不是一个有效的标识，则什么也不做，不会报错
+                */
+                clearInterval(timer);
+            };
+
+        };
+    </script>
+</head>
+
+<body>
+    <img id="img1" src="img1.jpg" alt="">
+    <br>
+    <button id="btn01">开始</button>
+    <button id="btn02">停止</button>
+
+</body>
+
+</html>
